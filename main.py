@@ -24,7 +24,7 @@ def remove_temp_file(path: str):
 
 @app.get("/", response_class=HTMLResponse)
 def home():
-    return {"message": "Backend is running"}
+    return "<h1>Backend is running</h1>"
 
 @app.post("/generate")
 def generate(background_tasks: BackgroundTasks, project_name: str = Form(...)):
