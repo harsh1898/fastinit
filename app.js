@@ -1,4 +1,4 @@
-<script>
+
         lucide.createIcons();
 
         // Theme Toggle
@@ -105,4 +105,4 @@
 
         // Dynamic Year
         document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+ 
