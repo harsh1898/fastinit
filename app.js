@@ -52,7 +52,7 @@
                 document.body.appendChild(a); a.click();
                 window.URL.revokeObjectURL(url);
 
-                resultDiv.innerHTML = "Project initialized successfully! Download started.";
+                resultDiv.innerHTML = "Project generated and downloaded successfully.";
                 resultDiv.className = 'success';
                 resultDiv.style.display = 'block';
                 input.value = '';
