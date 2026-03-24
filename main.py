@@ -1,9 +1,18 @@
 from fastapi import FastAPI, Form, BackgroundTasks
 from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from generator import create_fastapi_project
 import os
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def remove_temp_file(path: str):
     """Deletes a file from the filesystem."""
