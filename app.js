@@ -35,27 +35,36 @@
             btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Processing...';
             lucide.createIcons();
 
-            const formData = new FormData(form);
             const projectName = input.value;
 
             try {
-                const response = await fetch('https://fastinit.onrender.com/generate', {
-                    method: 'POST',
-                    body: formData
-                });
-                if (!response.ok) throw new Error('API request failed');
+                // Create a hidden form to trigger native browser download
+                const downloadForm = document.createElement('form');
+                downloadForm.method = 'POST';
+                downloadForm.action = 'https://fastinit.onrender.com/generate';
+                downloadForm.style.display = 'none';
 
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none'; a.href = url; a.download = `${projectName}.zip`;
-                document.body.appendChild(a); a.click();
-                window.URL.revokeObjectURL(url);
+                const nameInput = document.createElement('input');
+                nameInput.type = 'hidden';
+                nameInput.name = 'project_name';
+                nameInput.value = projectName;
 
-                resultDiv.innerHTML = "Project generated and downloaded successfully.";
+                downloadForm.appendChild(nameInput);
+                document.body.appendChild(downloadForm);
+                downloadForm.submit();
+                document.body.removeChild(downloadForm);
+
+                resultDiv.innerHTML = "Initializing download... check your browser's download manager.";
                 resultDiv.className = 'success';
                 resultDiv.style.display = 'block';
                 input.value = '';
+
+                // Reset button state after a short delay
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtn;
+                    lucide.createIcons();
+                }, 2000);
 
                 setTimeout(() => { resultDiv.style.display = 'none'; }, 6000);
             } catch (err) {

@@ -1,6 +1,7 @@
 import os
 import shutil
 import tempfile
+import uuid
 
 def create_fastapi_project(project_name):
     folders = [
@@ -165,8 +166,9 @@ SECRET_KEY=supersecret
         with open(full_path, "w") as f:
             f.write(content.strip())
 
-    # Create zip archive in /tmp to avoid project directory pollution
-    zip_base_name = os.path.join("/tmp", project_name)
+    # Create zip archive in /tmp with a unique name to avoid collisions
+    unique_id = str(uuid.uuid4())[:8]
+    zip_base_name = os.path.join("/tmp", f"{project_name}_{unique_id}")
     zip_file_path = shutil.make_archive(zip_base_name, 'zip', project_path)
     
     # Clean up the temporary project directory
